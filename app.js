@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 
 const authRoutes = require('./routes/auth');
@@ -14,6 +15,9 @@ const app = express();
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true})
     .then(() => console.log('MongoDB connected.'))
     .catch(error => console.log(error));
+
+app.use(passport.initialize());
+require('./middleware/passport')(passport);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
