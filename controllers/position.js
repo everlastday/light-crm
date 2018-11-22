@@ -7,7 +7,8 @@ module.exports.getByCategoryId = async function (req, res) {
             category: req.params.categoryId,
             user: req.user.id,
         });
-        res.status(200).json(positions)
+        res.status(200).json(positions);
+
     } catch (e) {
         errorHandler(res, e);
     }
