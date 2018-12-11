@@ -4,18 +4,17 @@ const moment = require('moment');
 
 module.exports.overview = async function (req, res) {
     try {
-        const allOrders = await Order.find({user: req.user.id}).sort(1);
+        const allOrders = await Order.find({user: req.user.id}).sort({date: 1});
         const ordersMap = getOrdersMap(allOrders);
-        const yesterdayOrders = ordersMap[moment.add(-1, 'd').format('DD.MM.YYYY')] || [];
-
+        const yesterdayOrders = ordersMap[moment().add(-1, 'd').format('DD.MM.YYYY')] || [];
         // Количество заказов вчера
         const yesterdayOrdersNumber = yesterdayOrders.length;
 
         // Количество заказво
-        const totalOrdersNumber = allOrders.length();
+        const totalOrdersNumber = allOrders.length;
 
         // Количество дней всего
-        const daysNumber = Object.keys(ordersMap).length
+        const daysNumber = Object.keys(ordersMap).length;
 
         // Заказов в день
         const ordersPerDay = totalOrdersNumber / daysNumber.toFixed(0);
@@ -31,9 +30,9 @@ module.exports.overview = async function (req, res) {
         // Процент выручки
         const gainPercent = (((yesterdayGain / gainPerDay) - 1) * 100).toFixed(2);
         // Сравнение выручки
-        const compareGain = (yesterdayGain - gainPerDay).toFixed(2)
+        const compareGain = (yesterdayGain - gainPerDay).toFixed(2);
         // Сравнение количества заказов
-        const compareNumber = (yesterdayOrdersNumber - ordersPerDay).toFixed(2)
+        const compareNumber = (yesterdayOrdersNumber - ordersPerDay).toFixed(2);
 
         res.status(200).json({
             gain: {
