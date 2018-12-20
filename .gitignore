@@ -3,3 +3,5 @@
 package-lock.json
 /uploads
 client/src/theme/
+config/keys.dev.js
+client/etc
